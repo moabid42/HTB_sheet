@@ -1,0 +1,57 @@
+Upgrading TTY:
+    freeMallok@htb[/htb]$ python -c 'import pty; pty.spawn("/bin/bash")'
+
+www-data@remotehost$ ^Z
+
+freeMallok@htb[/htb]$ stty raw -echo
+freeMallok@htb[/htb]$ fg
+
+[Enter]
+[Enter]
+www-data@remotehost$
+
+freeMallok@htb[/htb]$ echo $TERM
+
+xterm-256color
+
+freeMallok@htb[/htb]$ stty size
+
+67 318
+
+www-data@remotehost$ export TERM=xterm-256color
+
+www-data@remotehost$ stty rows 67 columns 318
+
+
+
+----------------------------------------- <- Escalation Test
+
+https://book.hacktricks.xyz/linux-hardening/linux-privilege-escalation-checklist
+
+------------------- Automate the boring stuff with a script :
+
+Many of the above commands may be automatically run with a script to go through the report and look for any weaknesses.
+We can run many scripts to automatically enumerate the server by running common commands that return any interesting findings.
+Some of the common Linux enumeration scripts include LinEnum and linuxprivchecker, and for Windows include Seatbelt and JAWS.
+
+Another useful tool we may use for server enumeration is the Privilege Escalation Awesome Scripts SUITE (PEASS),
+as it is well maintained to remain up to date and includes scripts for enumerating both Linux and Windows.
+
+linPEAS is considered one of the best tools !
+
+Kernel Vulns:
+For example, the above script showed us the Linux version to be 3.9.0-73-generic.
+If we Google exploits for this version or use searchsploit, we would find a CVE-2016-5195, otherwise known as DirtyCow.
+We can search for and download the DirtyCow exploit and run it on the server to gain root access.
+
+------------------ Privilege Escalation using sudo 
+
+Once we find a particular application we can run with sudo, we can look for ways to exploit it to get a shell as the root user.
+GTFOBins contains a list of commands and how they can be exploited through sudo.
+We can search for the application we have sudo privilege over, and if it exists, it may tell us the exact command we should execute to gain root access using the sudo privilege we have.
+
+LOLBAS also contains a list of Windows applications which we may be able to leverage to perform certain functions, like downloading files or executing commands in the context of a privileged user.
+
+
+-------------------Vulnurable machines and applications
+
